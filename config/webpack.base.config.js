@@ -1,6 +1,5 @@
 import Config from 'webpack-config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
 export default new Config().merge({
     entry: './public/index.js',
     output: {

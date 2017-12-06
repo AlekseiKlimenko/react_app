@@ -1,4 +1,5 @@
 {
   "port": 3000,
-  "public_path": "/public/build"
+  "public_path_dev": "./public/build",
+  "public_path_prod": "../public/build"
 }

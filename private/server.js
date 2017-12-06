@@ -9,9 +9,7 @@ const express = require('express'),
 
 // const aws = require('aws-sdk');
 const isDevelopment = process.env.NODE_ENV === 'development',
-      PUBLIC_PATH = process.env.NODE_ENV === 'development' ? '.' + config.get('public_path') :  '..' + config.get('public_path');
-
-app.use(express.static(PUBLIC_PATH));
+      PUBLIC_PATH = process.env.NODE_ENV === 'development' ? config.get('public_path_dev') :  config.get('public_path_prod');
 
 //for starting server - npm run start || npm run start-nodemon
 if (isDevelopment) {
@@ -27,6 +25,8 @@ if (isDevelopment) {
     }));
     app.use(require('webpack-hot-middleware')(compiler));
 }
+
+app.use(express.static(PUBLIC_PATH));
 
 app.get("/", function(req, res) {
     res.sendFile(path.resolve( PUBLIC_PATH , 'index.html' ));

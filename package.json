@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build-dev": "set NODE_ENV=development&& babel-node ./private/server.js",
-    "build-prod": "set NODE_ENV=production&& webpack && babel-node ./private/server.js",
+    "build-prod": "set NODE_ENV=production&& webpack",
     "flow": "flow"
   },
   "author": "",
