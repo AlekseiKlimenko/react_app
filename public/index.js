@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import Board from './components/board.component';
+import Game from './components/game.component'
 
 // import Clock from './main';
 // import AppRouter from './routes';
@@ -16,11 +16,11 @@ const render = (Component) =>
         document.getElementById('app')
     );
 
-render(Board);
+render(Game);
 
 if (module.hot) {
-    module.hot.accept(Board, () => {
-        require(Board),
-        render(Board);
+    module.hot.accept(Game, () => {
+        require(Game),
+        render(Game);
     });
 }
