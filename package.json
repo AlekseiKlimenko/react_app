@@ -13,7 +13,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
-    "webpack": "^3.9.1",
     "webpack-config": "^7.5.0",
     "webpack-dev-server": "^2.9.5"
   },
@@ -22,10 +21,13 @@
     "babel-cli": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
     "css-loader": "^0.28.7",
+    "node-sass": "^4.7.2",
     "postcss-loader": "^2.0.9",
     "precss": "^2.0.0",
     "react-hot-loader": "^3.0.0",
+    "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
+    "webpack": "^3.10.0",
     "webpack-dev-middleware": "^1.12.2",
     "webpack-hot-middleware": "^2.21.0"
   },

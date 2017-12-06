@@ -4,16 +4,17 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start-bable": "babel --presets babel-preset-es2015 server.js",
-    "start": "node server.js"
+    "start": "set NODE_ENV=run_server&& babel-node server",
+    "start-nodemon": "set NODE_ENV=run_server&& nodemon server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.162.0",
     "express": "^4.16.2",
-    "path": "^0.12.7"
+    "nconf": "^0.9.1",
+    "path": "^0.12.7",
+    "winston": "^2.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

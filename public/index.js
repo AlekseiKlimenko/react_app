@@ -3,11 +3,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import Clock from './main';
+import Board from './components/board.component';
 
+// import Clock from './main';
 // import AppRouter from './routes';
-
-// ReactDOM.render(<AppRouter />, document.getElementById("app"));
 
 const render = (Component) =>
     ReactDOM.render(
@@ -17,11 +16,11 @@ const render = (Component) =>
         document.getElementById('app')
     );
 
-render(Clock);
+render(Board);
 
 if (module.hot) {
-    module.hot.accept('./main', () => {
-        require('./main'),
-        render(Clock);
+    module.hot.accept(Board, () => {
+        require(Board),
+        render(Board);
     });
 }
