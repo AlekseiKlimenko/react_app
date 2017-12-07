@@ -1,17 +1,18 @@
 import React from 'react';
 import Board from './board.component';
+import { nextStep } from '../actions/gameActions';
+import { connect } from 'react-redux'
+
+import game from '../reducers/game';
+import { createStore } from 'redux';
+
+let store = createStore(game);
+let gameStore = store.getState();
+let unsubscribe = store.subscribe(() =>{
+    gameStore = store.getState();
+});
 
 class Game extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            history: [{
-                squares: Array(9).fill(null)
-            }],
-            xIsNext: true,
-            stepNumber: 0
-        };
-    }
 
     jumpTo(step) {
         this.setState({
@@ -21,27 +22,22 @@ class Game extends React.Component {
     }
 
     handleClick(i) {
-        const history = this.state.history,
-              current = history[history.length - 1],
-              squares = current.squares.slice();
 
-        if (calculateWinner(squares) || squares[i]) {
+        let history = gameStore.history.slice(),
+            currentSquares = gameStore.history[gameStore.history.length - 1].squares.slice();
+
+        if (calculateWinner(currentSquares) || currentSquares[i]) {
             return;
         }
 
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            history: history.concat([{
-                squares: squares,
-            }]),
-            xIsNext: !this.state.xIsNext,
-            stepNumber: 0
-        });
+        currentSquares[i] = gameStore.xIsNext ? 'X' : 'O';
+        history.push({squares: currentSquares})
+        store.dispatch(nextStep(history, !gameStore.xIsNext, history.length));
     }
 
     render() {
-        const history = this.state.history,
-            current = history[history.length - 1],
+        const history = gameStore.history,
+            current = history[gameStore.stepNumber],
             winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
@@ -59,7 +55,7 @@ class Game extends React.Component {
         if (winner) {
             status = 'Winner: ' + winner;
         } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            status = 'Next player: ' + (gameStore.xIsNext ? 'X' : 'O');
         }
 
         return (
@@ -75,8 +71,14 @@ class Game extends React.Component {
         );
     }
 }
+const mapStateToProps = function(store) {
+    return {
+        gameStore: gameStore
+    };
+}
 
-export default Game;
+export default connect(mapStateToProps)(Game);
+// export default Game;
 
 function calculateWinner(squares) {
     const lines = [
