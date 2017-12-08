@@ -32,6 +32,12 @@ app.get("/", function(req, res) {
     res.sendFile(path.resolve( PUBLIC_PATH , 'index.html' ));
 });
 
+app.get("/api/test", function(req, res) {
+    setTimeout(() => {
+        res.end('Finish');
+    },3000);
+});
+
 app.listen(config.get('port'), function () {
     log.info('Server start running on port ' + config.get('port'));
 });

@@ -1,7 +1,10 @@
 import React from 'react';
 import Board from './board.component';
-import { nextStep } from '../actions/gameActions';
-import { connect } from 'react-redux'
+import { nextStep, getTestApi ,receiveGet } from '../actions/gameActions';
+import { connect } from 'react-redux';
+
+import fetch from 'isomorphic-fetch'
+
 
 class Game extends React.Component {
 
@@ -13,21 +16,31 @@ class Game extends React.Component {
     }
 
     handleClick(i) {
-        let history = this.props.gameStore.history.slice(),
-            currentSquares = this.props.gameStore.history[this.props.gameStore.history.length - 1].squares.slice();
+        let startRequest = () => {
+            this.props.getTestApi();
+            fetch('/api/test').then((res)=>{
+                this.props.receiveGet(res);
+                console.log('=',res);
+            });
+        };
+        startRequest();
+
+
+        let history = this.props.gameState.history.slice(),
+            currentSquares = this.props.gameState.history[this.props.gameState.history.length - 1].squares.slice();
 
         if (calculateWinner(currentSquares) || currentSquares[i]) {
             return;
         }
 
-        currentSquares[i] = this.props.gameStore.xIsNext ? 'X' : 'O';
+        currentSquares[i] = this.props.gameState.xIsNext ? 'X' : 'O';
         history.push({squares: currentSquares});
-        this.props.nextStep(history, !this.props.gameStore.xIsNext, history.length - 1);
+        this.props.nextStep(history, !this.props.gameState.xIsNext, history.length - 1);
     }
 
     render() {
-        const history = this.props.gameStore.history,
-              current = history[this.props.gameStore.stepNumber],
+        const history = this.props.gameState.history,
+              current = history[this.props.gameState.stepNumber],
               winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
@@ -45,7 +58,7 @@ class Game extends React.Component {
         if (winner) {
             status = 'Winner: ' + winner;
         } else {
-            status = 'Next player: ' + (this.props.gameStore.xIsNext ? 'X' : 'O');
+            status = 'Next player: ' + (this.props.gameState.xIsNext ? 'X' : 'O');
         }
 
         return (
@@ -63,7 +76,8 @@ class Game extends React.Component {
 }
 const mapStateToProps = function(store) {
     return {
-        gameStore: store
+        gameState: store.gameState,
+        listState: store.listState
     };
 };
 
@@ -71,6 +85,12 @@ const mapDispatchToProps = function (dispatch) {
     return {
         nextStep: (newHistoryArr, xIsNext, stepNumber) => {
             dispatch(nextStep(newHistoryArr, xIsNext, stepNumber));
+        },
+        getTestApi: () => {
+            dispatch(getTestApi());
+        },
+        receiveGet: () => {
+            dispatch(receiveGet(res));
         }
     }
 };

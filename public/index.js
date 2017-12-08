@@ -1,16 +1,12 @@
 // @flow
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
-import Game from './components/game.component'
+// import Game from './components/game.component'
+import router from './route';
 
-
-import game from './reducers/game';
-import { createStore } from 'redux';
-
-let store = createStore(game);
+import store from './redux/store';
 
 const render = (Component) =>
     ReactDOM.render(
@@ -22,11 +18,11 @@ const render = (Component) =>
         document.getElementById('app')
     );
 
-render(Game);
+render(router);
 
 if (module.hot) {
-    module.hot.accept(Game, () => {
-        require(Game),
-        render(Game);
+    module.hot.accept(router, () => {
+        require(router),
+        render(router);
     });
 }
