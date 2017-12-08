@@ -3,15 +3,6 @@ import Board from './board.component';
 import { nextStep } from '../actions/gameActions';
 import { connect } from 'react-redux'
 
-import game from '../reducers/game';
-import { createStore } from 'redux';
-
-let store = createStore(game);
-let gameStore = store.getState();
-let unsubscribe = store.subscribe(() =>{
-    gameStore = store.getState();
-});
-
 class Game extends React.Component {
 
     jumpTo(step) {
@@ -22,23 +13,22 @@ class Game extends React.Component {
     }
 
     handleClick(i) {
-
-        let history = gameStore.history.slice(),
-            currentSquares = gameStore.history[gameStore.history.length - 1].squares.slice();
+        let history = this.props.gameStore.history.slice(),
+            currentSquares = this.props.gameStore.history[this.props.gameStore.history.length - 1].squares.slice();
 
         if (calculateWinner(currentSquares) || currentSquares[i]) {
             return;
         }
 
-        currentSquares[i] = gameStore.xIsNext ? 'X' : 'O';
-        history.push({squares: currentSquares})
-        store.dispatch(nextStep(history, !gameStore.xIsNext, history.length));
+        currentSquares[i] = this.props.gameStore.xIsNext ? 'X' : 'O';
+        history.push({squares: currentSquares});
+        this.props.nextStep(history, !this.props.gameStore.xIsNext, history.length - 1);
     }
 
     render() {
-        const history = gameStore.history,
-            current = history[gameStore.stepNumber],
-            winner = calculateWinner(current.squares);
+        const history = this.props.gameStore.history,
+              current = history[this.props.gameStore.stepNumber],
+              winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
             const desc = move ?
@@ -55,7 +45,7 @@ class Game extends React.Component {
         if (winner) {
             status = 'Winner: ' + winner;
         } else {
-            status = 'Next player: ' + (gameStore.xIsNext ? 'X' : 'O');
+            status = 'Next player: ' + (this.props.gameStore.xIsNext ? 'X' : 'O');
         }
 
         return (
@@ -73,12 +63,19 @@ class Game extends React.Component {
 }
 const mapStateToProps = function(store) {
     return {
-        gameStore: gameStore
+        gameStore: store
     };
-}
+};
 
-export default connect(mapStateToProps)(Game);
-// export default Game;
+const mapDispatchToProps = function (dispatch) {
+    return {
+        nextStep: (newHistoryArr, xIsNext, stepNumber) => {
+            dispatch(nextStep(newHistoryArr, xIsNext, stepNumber));
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 function calculateWinner(squares) {
     const lines = [

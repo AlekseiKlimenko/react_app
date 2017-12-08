@@ -9,7 +9,6 @@ const initialGame = {
 };
 
 export default function game(state = initialGame, action) {
-    console.log('action', action);
 
     switch (action.type){
         case types.NEXT_STEP: return {...state,
