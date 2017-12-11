@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// const Root = () => (
-//     <div>Hello React Hot Loader!!!!!!!!!!!!!!!!!!!!!!!!!</div>
-// )
+const Root = () => (
+    <div>Hello React Hot Loader!!!!!!!!!!!!!!!!!!!!!!!!!</div>
+)
 
 const testArray =[
     {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
@@ -17,13 +17,14 @@ const testArray =[
 class Clock extends React.Component{
     constructor(props){
         super(props);
+        console.log('Clock component props', props);
         this.state = {
             date: new Date()
         };
     }
 
-
     componentDidMount() {
+
         this.timerID = setInterval(
             () => this.tick(),
             1000
@@ -41,8 +42,11 @@ class Clock extends React.Component{
     render(){
         return(
             <div>
-                <h1>Hello, world!</h1>
-                <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+                 <h1>Hello, world!</h1>
+                 <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+                 <div>Params url: {this.props.match.params
+                     .id} ,category: {this.props.match.params.
+                     category}</div>
             </div>
         )
     }
@@ -52,5 +56,5 @@ class Clock extends React.Component{
 //     children: PropTypes.element.isRequired
 // };
 
-
 export default Clock;
+
