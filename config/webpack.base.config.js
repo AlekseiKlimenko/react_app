@@ -1,7 +1,7 @@
 import Config from 'webpack-config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 export default new Config().merge({
-    entry: './public/index.js',
+    entry: './public/src/index.js',
     output: {
         path: __dirname + '/../public/build',
     },
@@ -16,7 +16,7 @@ export default new Config().merge({
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './public/index.html',
+            template: './public/src/index.html',
             inject: "body"
         })]
 });

@@ -3,9 +3,11 @@ global.INCPATH = ABSPATH + '/libs';
 
 const express = require('express'),
       app = express(),
+      // passport = require('passport'),
+      // passportConfig = require('./libs/passport')(passport),
+      bodyParser = require('body-parser'),
       config = require( INCPATH + '/config' ),
-      log = require( INCPATH + '/log')(module),
-      path = require('path');
+      log = require( INCPATH + '/log')(module);
 
 // const aws = require('aws-sdk');
 const isDevelopment = process.env.NODE_ENV === 'development',
@@ -27,6 +29,10 @@ if (isDevelopment) {
 }
 
 app.use(express.static(PUBLIC_PATH));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// require('./routes.js')(app, passport, PUBLIC_PATH);
 
 app.get("/", function(req, res) {
     res.sendFile(path.resolve( PUBLIC_PATH , 'index.html' ));
@@ -41,3 +47,56 @@ app.get("/api/test", function(req, res) {
 app.listen(config.get('port'), function () {
     log.info('Server start running on port ' + config.get('port'));
 });
+//========================================
+
+
+
+
+//it telegram bot mirron
+// const BOT_TOKEN = '455434039:AAFs2wwf3Z8Kdbe85MZI-9wRIk_jYtAPfLY',
+//       Telegram = require('telegram-node-bot'),
+//       TelegramBaseController = Telegram.TelegramBaseController,
+//       TextCommand = Telegram.TextCommand,
+//       tg = new Telegram.Telegram(BOT_TOKEN);
+
+// class PingController extends TelegramBaseController {
+//     /**
+//      * @param {Scope} $
+//      */
+//     pingHandler($) {
+//         console.log($)
+//         $.sendMessage('pong')
+//     }
+//
+//     get routes() {
+//         return {
+//             'pingCommand': 'pingHandler'
+//         }
+//     }
+// }
+
+// tg.router
+//     .when(
+//         new TextCommand('ping', 'pingCommand'),
+//         new PingController()
+//     )
+//========================================
+
+
+//========================================
+//it for parsing page.html
+// var needle = require('needle');
+// var cheerio = require('cheerio');
+//
+// var URL = 'https://habrahabr.ru/post/301426/';
+//
+// needle.get(URL, function(err, res){
+//     if (err) throw err;
+//     var $ = cheerio.load(res.body);
+//     console.log(res.body);
+//     console.log(res.statusCode);
+//     console.log('=================',$('#parsing').text());
+// });
+
+//=========================================
+

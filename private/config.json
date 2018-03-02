@@ -1,5 +1,15 @@
 {
   "port": 3000,
   "public_path_dev": "./public/build",
-  "public_path_prod": "../public/build"
+  "public_path_prod": "../public/build",
+  "googleAuth" : {
+    "clientID"      : "963414224978-vgr6lu2im8dakdpc396mqosq8179m2d9.apps.googleusercontent.com",
+    "clientSecret"  : "o7D54O5pB6b4xZr23mmQvWMj",
+    "callbackURL"   : "http://localhost:3000/auth/google/callback"
+  },
+  "facebookAuth":{
+    "app_id":"194850321263641",
+    "app_secret":"f3847e0859da11a44d449b3757aa4590",
+    "callback":"http://localhost:3000/auth/facebook/callback"
+  }
 }

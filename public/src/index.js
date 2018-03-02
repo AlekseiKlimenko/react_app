@@ -3,11 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
-import { Link } from 'react-router-dom';
-// import Game from './components/game.component'
-import router from './route';
-
 import store from './redux/store';
+import router from './route';
 
 const render = (Component) =>
     ReactDOM.render(

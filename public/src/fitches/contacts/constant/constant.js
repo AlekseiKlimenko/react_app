@@ -1,0 +1,1 @@
+export const SHOW_ALL_CONTACTS = 'SHOW_ALL_CONTACTS';
