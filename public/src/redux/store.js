@@ -1,17 +1,14 @@
-import { createStore, combineReducers } from 'redux';
-
-// import game from '../reducers/game';
-// import list from '../reducers/list';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import contacts from '../reducers/contacts';
-import { reducer as formReducer } from 'redux-form';
+import logger from '../fitches/middleware/logger'
 
 const reducers = combineReducers({
-    // gameState: game,
-    // listState: list,
-    // form: formReducer
-    contacts: contacts
+    contacts
 });
 
-const store = createStore(reducers);
+const store = createStore(
+    reducers,
+    applyMiddleware(logger)
+);
 
 export default store;

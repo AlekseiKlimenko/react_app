@@ -1,42 +1,53 @@
-//https://rajdee.gitbooks.io/redux-in-russian/content/docs/basics/UsageWithReact.html
 import React from "react";
 import { connect } from 'react-redux'
 import OneContact from "../../one-contact/oneContactComponent";
 import CreateContactForm from "../../create-contact-form/createContactFormCompoment";
-import store from "../../../redux/store";
-
+import {listSelector} from '../../selectors/index';
+import {increment} from '../../contacts/actions/increment';
+import {deleteContact} from '../../contacts/actions/contacts';
 
 class Contacts extends React.Component {
-    constructor(props) {
-        super(props);
-        console.log(props)
-    }
+
     render() {
         return (
             <div className="row">
                 <CreateContactForm/>
-                {[1,2,3,4].map(i => {
-                    return <OneContact key={i}/>
-                })}
+                {this.createContactElem()}
             </div>
         );
     }
+
+    createContactElem = () => {
+        return this.props.list.map((elem) => {
+            return <OneContact key={elem.id}
+                               id={elem.id}
+                               count={elem.counter}
+                               changeCount = {this.changeCount}
+                               deleteContact = {this.deleteContact}
+            />
+        });
+    }
+
+    changeCount = (id) => {
+        const {increment} = this.props;
+        increment(id);
+    }
+
+    deleteContact = (id) => {
+        const {deleteContact} = this.props;
+        deleteContact(id);
+    }
 }
+
 const mapStateToProps = (state) => {
     return {
-        contacts: state.contacts
+        list: listSelector(state)
     }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        // onTodoClick: (id) => {
-        //     dispatch(toggleTodo(id))
-        // }
-    }
-}
-const VisibleContacts = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Contacts);
+};
 
-export default VisibleContacts;
+const mapStateToDispatch = {
+    increment,
+    deleteContact
+}
+
+export default connect(mapStateToProps, mapStateToDispatch)(Contacts);
